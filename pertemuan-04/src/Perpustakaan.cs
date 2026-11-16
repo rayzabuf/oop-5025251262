@@ -51,7 +51,29 @@ public class Perpustakaan
         //   akun.JumlahPinjamanAktif sudah sama dengan AkunAnggota.MaksPinjaman
         //   -> InvalidOperationException; selain itu panggil buku.Pinjam()
         //   (boleh melempar kalau stok habis) lalu akun.CatatPinjam().
-        throw new NotImplementedException("Level 10 belum diimplementasikan");
+        if (akun == null)
+        {
+            throw new ArgumentNullException(nameof(akun));
+        }
+
+        var buku = Cari(isbn);
+        if (buku == null)
+        {
+            throw new ArgumentException($"Buku dengan ISBN {isbn} tidak ditemukan.", nameof(isbn));
+        }
+
+        if (akun.Denda > 0)
+        {
+            throw new InvalidOperationException("Anggota memiliki denda yang belum dibayar.");
+        }
+
+        if (akun.JumlahPinjamanAktif >= AkunAnggota.MaksPinjaman)
+        {
+            throw new InvalidOperationException("Batas maksimal peminjaman telah tercapai.");
+        }
+
+        buku.Pinjam();
+        akun.CatatPinjam();
     }
 
     public void KembalikanBuku(string isbn, AkunAnggota akun)
@@ -60,6 +82,23 @@ public class Perpustakaan
         //   ArgumentException; akun.JumlahPinjamanAktif = 0 ->
         //   InvalidOperationException; selain itu panggil buku.Kembalikan() lalu
         //   akun.CatatKembali().
-        throw new NotImplementedException("Level 10 belum diimplementasikan");
+        if (akun == null)
+        {
+            throw new ArgumentNullException(nameof(akun));
+        }
+
+        var buku = Cari(isbn);
+        if (buku == null)
+        {
+            throw new ArgumentException($"Buku dengan ISBN {isbn} tidak ditemukan.", nameof(isbn));
+        }
+
+        if (akun.JumlahPinjamanAktif == 0)
+        {
+            throw new InvalidOperationException("Anggota tidak memiliki pinjaman aktif.");
+        }
+
+        buku.Kembalikan();
+        akun.CatatKembali();
     }
 }
