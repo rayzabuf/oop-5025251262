@@ -58,7 +58,11 @@ public class Buku
     {
         // TODO(Level 3): kurangi StokTersedia satu. Kalau stok sudah 0, lempar
         //   InvalidOperationException dan biarkan stok tetap.
-        throw new NotImplementedException("Level 3 belum diimplementasikan");
+        if (_stokTersedia <= 0)
+        {
+            throw new InvalidOperationException("Stok buku tidak tersedia untuk dipinjam.");
+        }
+        _stokTersedia--;
     }
 
     public void Kembalikan()
@@ -66,7 +70,11 @@ public class Buku
         // TODO(Level 4): tambah StokTersedia satu. Kalau stok sudah sama dengan
         //   StokTotal (tidak ada yang sedang dipinjam), lempar
         //   InvalidOperationException dan biarkan stok tetap.
-        throw new NotImplementedException("Level 4 belum diimplementasikan");
+        if (_stokTersedia >= _stokTotal)
+        {
+            throw new InvalidOperationException("Semua eksemplar buku sudah ada di perpustakaan.");
+        }
+        _stokTersedia++;
     }
 
     // Level 5: properti TERHITUNG -- tanpa field pendukung, tanpa setter.
@@ -76,7 +84,11 @@ public class Buku
         {
             // TODO(Level 5): kembalikan StokTersedia / StokTotal * 100 (double).
             //   Kalau StokTotal = 0 kembalikan 0 (bukan NaN).
-            throw new NotImplementedException("Level 5 belum diimplementasikan");
+            if (_stokTotal == 0)
+            {
+                return 0.0;
+            }
+            return (double)_stokTersedia / _stokTotal * 100.0;
         }
     }
 
@@ -86,7 +98,7 @@ public class Buku
         {
             // TODO(Level 5): kembalikan "Tersedia" kalau StokTersedia > 0,
             //   selain itu "Habis".
-            throw new NotImplementedException("Level 5 belum diimplementasikan");
+            return _stokTersedia > 0 ? "Tersedia" : "Habis";
         }
     }
 
