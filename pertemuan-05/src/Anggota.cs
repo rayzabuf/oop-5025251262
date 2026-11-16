@@ -17,13 +17,14 @@ public class Anggota
     // TODO(Level 4): setter BatasPinjam sekarang PUBLIC sehingga siapa pun bisa
     //   mengubahnya. Ubah menjadi `protected set` supaya hanya Anggota dan kelas
     //   turunannya yang boleh mengubah. Nilai awal untuk Anggota biasa = 2.
-    public int BatasPinjam { get; set; } = 2;
+    public int BatasPinjam { get; protected set; } = 2;
 
     public int JumlahPinjam { get; private set; }
 
     // TODO(Level 9): tambahkan field `private readonly LogAktivitas _log =
     //   new();` -- setiap Anggota MEMILIKI log-nya sendiri (bukan satu log
     //   bersama/static).
+    private readonly LogAktivitas _log = new();
 
     // Level 9: riwayat aktivitas milik anggota ini.
     public IReadOnlyList<string> Riwayat
@@ -32,7 +33,7 @@ public class Anggota
         {
             // TODO(Level 9): kembalikan isi log milik anggota ini
             //   (LogAktivitas.Semua).
-            throw new NotImplementedException("Level 9 belum diimplementasikan");
+            return _log.Semua;
         }
     }
 
@@ -69,6 +70,17 @@ public class Anggota
         // TODO(Level 5): judul null/kosong -> ArgumentException; JumlahPinjam
         //   sudah mencapai BatasPinjam -> InvalidOperationException; selain itu
         //   naikkan JumlahPinjam satu.
-        throw new NotImplementedException("Level 5 belum diimplementasikan");
+        if (string.IsNullOrWhiteSpace(judul))
+        {
+            throw new ArgumentException("Judul tidak boleh kosong.", nameof(judul));
+        }
+
+        if (JumlahPinjam >= BatasPinjam)
+        {
+            throw new InvalidOperationException("Batas pinjam telah tercapai.");
+        }
+
+        JumlahPinjam++;
+        _log.Catat($"Pinjam: {judul}");
     }
 }

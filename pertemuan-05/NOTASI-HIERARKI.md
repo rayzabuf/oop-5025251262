@@ -22,3 +22,65 @@ classDiagram
 Jangan hapus baris penanda di bawah ini — jawaban kalian harus ditulis **setelah** baris itu, bukan sebelumnya.
 
 <!-- TULIS JAWABAN KALIAN DI BAWAH BARIS INI -->
+
+```mermaid
+classDiagram
+    Anggota <|-- Mahasiswa : is-a (pewarisan / inheritance)
+    Anggota <|-- Dosen : is-a (pewarisan / inheritance)
+    Mahasiswa <|-- Asisten : is-a (pewarisan bertingkat)
+    Anggota *-- Alamat : has-a (komposisi / composition)
+    Anggota *-- LogAktivitas : has-a (komposisi / composition)
+
+    class Anggota {
+        +string Id
+        +string Nama
+        +Alamat Alamat
+        #int BatasPinjam
+        +int JumlahPinjam
+        -LogAktivitas _log
+        +IReadOnlyList~string~ Riwayat
+        +Info() string
+        +Pinjam(string judul) void
+    }
+
+    class Mahasiswa {
+        +string Nrp
+        +string Prodi
+        +InfoLengkap() string
+    }
+
+    class Dosen {
+        +string Nip
+        +InfoLengkap() string
+    }
+
+    class Asisten {
+        +string MataKuliah
+        +InfoAsisten() string
+    }
+
+    class Alamat {
+        +string Jalan
+        +string Kota
+        +ToString() string
+    }
+
+    class LogAktivitas {
+        -List~string~ _entri
+        +IReadOnlyList~string~ Semua
+        +Catat(string pesan) void
+    }
+```
+
+### Penjelasan Diagram:
+1. **Hubungan Pewarisan (*is-a* / inheritance)**:
+   - `Mahasiswa` mewarisi `Anggota` (`Anggota <|-- Mahasiswa`).
+   - `Dosen` mewarisi `Anggota` (`Anggota <|-- Dosen`).
+   - `Asisten` mewarisi `Mahasiswa` (`Mahasiswa <|-- Asisten`).
+2. **Hubungan Komposisi (*has-a* / composition / memiliki)**:
+   - `Anggota` memiliki objek `Alamat` (`Anggota *-- Alamat`).
+   - `Anggota` memiliki objek `LogAktivitas` (`Anggota *-- LogAktivitas`).
+3. **Visibilitas**:
+   - `+` menunjukkan anggota public.
+   - `#` menunjukkan anggota protected (misalnya `# BatasPinjam`).
+   - `-` menunjukkan anggota private (misalnya `- _log`, `- _entri`).

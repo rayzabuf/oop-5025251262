@@ -32,6 +32,7 @@ public class Mahasiswa : Anggota
 
         Nrp = nrp;
         Prodi = prodi;
+        BatasPinjam = 3;
     }
 
     public string InfoLengkap()
@@ -39,6 +40,6 @@ public class Mahasiswa : Anggota
         // TODO(Level 7): gabungkan Info() milik kelas induk dengan data khusus
         //   mahasiswa, dipisah " | ": "<Info()> | NRP: <Nrp> | Prodi: <Prodi> |
         //   Alamat: <Alamat>" (Alamat memakai ToString() milik objek Alamat).
-        throw new NotImplementedException("Level 7 belum diimplementasikan");
+        return $"{Info()} | NRP: {Nrp} | Prodi: {Prodi} | Alamat: {Alamat}";
     }
 }
